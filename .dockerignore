@@ -1,0 +1,10 @@
+/.vscode
+/.history
+/node_modules
+/.env
+/.gitignore
+/config.json
+/docker-compose.yml
+/Dockerfile
+/README.md
+/data
