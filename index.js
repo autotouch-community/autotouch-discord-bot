@@ -1,16 +1,12 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-const config = require('./config.json')
+const config = require('./config.json');
 
 const PREFIX = '-';
 
-var version = '5.1.2-1';
-
 bot.on('ready', () => {
     console.log('This bot is online!');
-    //Activity (below)
-    bot.user.setActivity('-help', { type: 'LISTENING' });
-
+    bot.user.setActivity('-h, -help', { type: 'LISTENING' });
 })
 
 bot.on('message', message => {
@@ -19,66 +15,154 @@ bot.on('message', message => {
 
     switch (args[0]) {
         //Basic commands (doc,website,repo)
-        case 'doc':
-            message.channel.send('**Enter a command to get defination of function and example**./n~~Heres a list!\n`-LuaCURL`\n`-LuaSocket`\n`-LuaSec`\n`-LuaSqlite3`\n`-json.lua`\n`-Plist`\n`-Penlight`\n`-LuaFileSystem`\n`-WebSocket`\n`-touchDown`\n`touchMove`\n`touchUp`\n`-keyDown`\n`-keyUp`\n`-getColor`\n`-findColor`\n`-findImage`\n`-screenshot`\n`-appRun`\n`-appKill`\n`-appState`\n`-rootDir`\n`-usleep`\n`-log`\n`-alert`\n`-toast`\n`-vibrate`\n`-playAudio`\n`-stopAudio`\n`-getOrientation`\n`-getScreenResolution`\n`-getSN`\n`-getVersion`\n`-frontMostAppId`\n`-frontMostAppOrientation`\n`-intToRgb`\n`-copyText`\n`-clipText`\n`-inputText`\n`-clearDialogValues`\n`-openURL`\n`-isLicensed`\n`-setAutoLanuch`\n`-listAutoLanuch`');
-            break;
-        case 'website':
-            message.channel.send('https://autotouch.net/')
-            break;
+        case 'h':
         case 'help':
-            message.channel.send('Usages: \n**-doc** documentations. \n**-site** website. \n**-repo** repositories.\n**-about** what AutoTouch is.')
+            message.channel.send(`
+Usages: 
+**-d, -doc** documentations. 
+**-s, -site** website. 
+**-r, -repo** repositories.
+**-m, -mach** mach port error.
+**-a, -about** what AutoTouch is.`)
             break;
+        case 'd':
+        case 'doc':
+            message.channel.send(`
+**Enter a command to get defination of function and example**.
+Heres a list:
+\`-LuaCURL\`
+\`-LuaSocket\`
+\`-LuaSec\`
+\`-LuaSqlite3\`
+\`-json\`
+\`-Plist\`
+\`-Penlight\`
+\`-LuaFileSystem\`
+\`-WebSocket\`
+\`-touchDown\`
+\`-touchMove\`
+\`-touchUp\`
+\`-keyDown\`
+\`-keyUp\`
+\`-getColor\`
+\`-findColor\`
+\`-findImage\`
+\`-screenshot\`
+\`-appRun\`
+\`-appKill\`
+\`-appState\`
+\`-rootDir\`
+\`-usleep\`
+\`-log\`
+\`-alert\`
+\`-toast\`
+\`-vibrate\`
+\`-playAudio\`
+\`-stopAudio\`
+\`-getOrientation\`
+\`-getScreenResolution\`
+\`-getSN\`
+\`-getVersion\`
+\`-frontMostAppId\`
+\`-frontMostAppOrientation\`
+\`-intToRgb\`
+\`-copyText\`
+\`-clipText\`
+\`-inputText\`
+\`-clearDialogValues\`
+\`-openURL\`
+\`-isLicensed\`
+\`-setAutoLaunch\`
+\`-listAutoLaunch\`
+`);
+            break;
+        case 's':
+        case 'site':
+            message.channel.send(`
+https://autotouch.net/`)
+            break;
+        case 'r':
         case 'repo':
-            message.channel.send('- Official repo: **https://apt.autotouch.net/** \n- Beta repo: **https://beta.autotouch.net/**')
+            message.channel.send(`
+- Official repo: **https://apt.autotouch.net/** 
+- Beta repo: **https://beta.autotouch.net/**`)
             break;
-        case 'version':
-            message.channel.send('Latest stable: **5.1.1** \nLatest beta: Beta **v5.2.1-1**')
-            break;
+        case 'a':
         case 'about':
-            message.channel.send('AutoTouch is a **Macro** tool for jailbroken iOS devices that allows you to **record** and **playback** your touch actions on the mobile devices, while it also **executes** custom Lua scripts with a batch of extension functions. AutoTouch has an embedded **store** where you can **purchase** or **sell** your scripts. If one does not exist you may either code it yourself or commission it from another author.\n\nAutoTouch supports jailbroken iOS only at present.')
+            message.channel.send(`
+AutoTouch is a **Macro** tool for jailbroken iOS devices that allows you to **record** and **playback** your touch actions on the mobile devices, while it also **executes** custom Lua scripts with a batch of extension functions. AutoTouch has an embedded **store** where you can **purchase** or **sell** your scripts. If one does not exist you may either code it yourself or commission it from another author.
+AutoTouch supports jailbroken iOS only at present.`)
             break;
         //Document Commands   
         case 'LuaCURL':
-            message.channel.send('*curl* is used in command lines or scripts to transfer data. Do -LuaCURL Support to see what it supports.\nExample:\nhttps://pastebin.com/1hhuWhPS')
+            message.channel.send(`
+*curl* is used in command lines or scripts to transfer data. Do -LuaCURL Support to see what it supports.
+Example:
+https://pastebin.com/1hhuWhPS`)
             break;
         case 'LuaSocket':
-            message.channel.send('**LuaSocket** is a Lua extension library which supported TCP, UDP, SMTP, HTTP, FTP protocols.')
+            message.channel.send(`
+**LuaSocket** is a Lua extension library which supported TCP, UDP, SMTP, HTTP, FTP protocols.`)
             break;
         case 'LuaSec':
-            message.channel.send('**LuaSec** is a binding for OpenSSL library to provide TLS/SSL communication. It takes an already established TCP connection and creates a secure session between the peers.')
+            message.channel.send(`
+**LuaSec** is a binding for OpenSSL library to provide TLS/SSL communication. It takes an already established TCP connection and creates a secure session between the peers.`)
             break;
         case 'LuaSqlite3':
-            message.channel.send('**LuaSQLite 3** is a thin wrapper around the public domain SQLite3 database engine.')
+            message.channel.send(`
+**LuaSQLite 3** is a thin wrapper around the public domain SQLite3 database engine.`)
             break;
-        case 'json.lua':
-            message.channel.send('**json.lua** provides operation methods on json.\nExample:\nhttps://pastebin.com/ELTzWUW4')
-            break;
-        case 'jsonlua':
-            message.channel.send('**json.lua** provides operation methods on json.\nExample:\nhttps://pastebin.com/ELTzWUW4')
+        case 'json':
+            message.channel.send(`
+**json.lua** provides operation methods on json.
+Example:
+https://pastebin.com/ELTzWUW4`)
             break;
         case "Plist":
-            message.channel.send('**Plist** Plist library provides a batch of methods to operate on plist files.\n**Example:**\nhttps://pastebin.com/NNNcCm66')
+            message.channel.send(`
+**Plist** Plist library provides a batch of methods to operate on plist files.
+**Example:**
+https://pastebin.com/NNNcCm66`)
             break;
         case "plist":
-            message.channel.send('**Plist** Plist library provides a batch of methods to operate on plist files.\n**Example:**\nhttps://pastebin.com/NNNcCm66')
+            message.channel.send(`
+**Plist** Plist library provides a batch of methods to operate on plist files.
+**Example:**
+https://pastebin.com/NNNcCm66`)
             break;
         case "Penlight":
-            message.channel.send('A set of pure Lua libraries focusing on input data handling (such as reading configuration files), functional programming (such as map, reduce, placeholder expressions,etc), and OS path management.\nModules:\nhttps://pastebin.com/rUMrgEqq')
+            message.channel.send(`
+A set of pure Lua libraries focusing on input data handling (such as reading configuration files), functional programming (such as map, reduce, placeholder expressions,etc), and OS path management.
+Modules:
+https://pastebin.com/rUMrgEqq`)
             break;
         case "penlight":
-            message.channel.send('A set of pure Lua libraries focusing on input data handling (such as reading configuration files), functional programming (such as map, reduce, placeholder expressions,etc), and OS path management.\nModules:\nhttps://pastebin.com/rUMrgEqq')
+            message.channel.send(`
+A set of pure Lua libraries focusing on input data handling (such as reading configuration files), functional programming (such as map, reduce, placeholder expressions,etc), and OS path management.
+Modules:
+https://pastebin.com/rUMrgEqq`)
             break;
         case "luafilesystem":
-            message.channel.send('LuaFileSystem is a Lua library developed to complement the set of functions related to file systems offered by the standard Lua distribution.\nLuaFileSystem offers a portable way to access the underlying directory structure and file attributes.')
+            message.channel.send(`
+LuaFileSystem is a Lua library developed to complement the set of functions related to file systems offered by the standard Lua distribution.
+LuaFileSystem offers a portable way to access the underlying directory structure and file attributes.`)
             break;
         case "LuaFileSystem":
-            message.channel.send('LuaFileSystem is a Lua library developed to complement the set of functions related to file systems offered by the standard Lua distribution.\nLuaFileSystem offers a portable way to access the underlying directory structure and file attributes.')
+            message.channel.send(`
+LuaFileSystem is a Lua library developed to complement the set of functions related to file systems offered by the standard Lua distribution.
+LuaFileSystem offers a portable way to access the underlying directory structure and file attributes.`)
             break;
         case "WebSocket":
-            message.channel.send('This module provides Lua modules for Websocket Version 13 conformant clients and servers.\n**Example:**\nhttps://pastebin.com/EZ6D9Epr')
+            message.channel.send(`
+This module provides Lua modules for Websocket Version 13 conformant clients and servers.
+**Example:**
+https://pastebin.com/EZ6D9Epr`)
             break;
         case "websocket":
-            message.channel.send('This module provides Lua modules for Websocket Version 13 conformant clients and servers.\n**Example:**\nhttps://pastebin.com/EZ6D9Epr')
+            message.channel.send(`
+This module provides Lua modules for Websocket Version 13 conformant clients and servers.
+**Example:**
+https://pastebin.com/EZ6D9Epr`)
             break;
         case "touchDown":
             message.channel.send(`
@@ -768,7 +852,7 @@ setAutoLaunch("/Records/test.lua", on);
 \`\`\`
 `)
             break;
-        case "listAutoLanuch":
+        case "listAutoLaunch":
             message.channel.send(`
 \`listAutoLaunch()\`
 List all auto lanuch scripts
@@ -781,11 +865,19 @@ end
 \`\`\`
 `)
             break;
+        case "m":
         case "mach":
-            message.channel.send('To fix the Mach Error please reboot the device in question and reapply the jailbreak. This may need to be done several times for the error to go away.-11.4.1 It is suggested that devices running iOS 11.4.1 to be jailbroken with Electra. If you are on unc0ver you will need to run "restore rootFS" before installing and jailbreaking with Electra.')
+            message.channel.send(`
+When you got Mach error "Send message failed, error operation couldn’t be completed. (Mach error 268435459 - (ipc/send) invalid destination port)", you have two ways to try: 
+1. upgrade RocketBootstrap to 1.0.7~beta3 or above from official repo: http://rpetri.ch/repo/
+2. rejailbreak (maybe serval times) .
+3. Factory reset, rejailbreak, install the latest RocketBootstrap from official repo.`)
             break;
         case "author":
-            message.channel.send(`Here are some trusted authors.\n **<@294623609786204160>** \n**<@530284644034150401>**\n*DM <@572158805304017005> if you think you should be on the list.* `)
+            message.channel.send(`Here are some trusted authors.
+**<@294623609786204160>** 
+**<@530284644034150401>**
+*DM <@572158805304017005> if you think you should be on the list.* `)
             break;
     }
 
