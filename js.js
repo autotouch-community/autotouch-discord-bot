@@ -284,7 +284,7 @@ function unlockScreen() {
 \`\`\`
 `,
     getcolor: `
-\`getColor(x, y)\`
+\`getColor\`
 
 Get the color value of the pixel point of the specified coordinate on current screen.
 
@@ -426,7 +426,7 @@ at.findColors(options, (result, error) => {
 \`\`\`
 `,
     findcolors: `
-\`findColors(colors, count, region, debug)\`
+\`findColors\`
 
 Search all rectangular areas matching “specified color and their corresponding location and return the coordinate of the pixel point matching the first color in the rectangular area. This function has the search efficiency and availability far beyond findImage. For example, you need not match the whole key picture, but only match the anchors’ color and their corresponding location on the key. You can specify the number of the results by count parameter. 0 refers to all, 1 refers to the first one, and 2 refers to the first tow. region parameter can specify the search area, which is the table type {x,y,width, height}. You only input nil if no data is specified. 
 This function can use the "HELPER" tool in the “Extension Function” of the script-editing interface to select the anchors’ colors from the screenshot and get their corresponding location to the function’s parameter automatically.
@@ -516,7 +516,7 @@ at.findColors(options, (result, error) => {
 \`\`\`
 `,
     findimage: `
-\`findImage(targetImagePath, count, threshold, region, debug, method)\`
+\`findImage\`
 
 Search areas matching the specified image on current screen and return the center coordinates. It supports any format of target images. It also provides a debug mode which will produce an image marked the matching areas.
 
@@ -635,12 +635,154 @@ const region = { x: 0, y: 0, width: 300, height: 500 }
 screenshot(savePath, region)
 \`\`\`
 `,
+    recognizetext: `
+\`Examples(JavaScript):\`
+\`\`\`js
+const options = {
+    region: { x: 0, y: 100, width: 300, height: 300 }, // OPTIONAL, area of the screen you want to detect
+    // customWords: ['Deploy', 'Troops'], // OPTIONAL, an array of strings to supplement the recognized languages at the word recognition stage.
+    // minimumTextHeight: 1 / 32, // OPTIONAL, the minimum height of the text expected to be recognized, relative to the region/screen height, default is 1/32
+    // level: 0, // OPTIONAL, 0 means accurate first, 1 means speed first
+    // languages: ['en-US', 'fr-CA'], // OPTIONAL, an array of languages to detect, in priority order, only \`en-US\` supported now. ISO language codes: http://www.lingoes.net/en/translator/langcode.htm
+    // correct: false, // OPTIONAL, whether use language correction during the recognition process.
+    debug: true, // OPTIONAL, you can choose to produce debug image
+}
+
+/**
+ * Recognize text on the screen or a specified region
+ * at.recognizeText(options, callback)
+ * @param {object} options - recognition options
+ * @param {function} callback - callback function for handling the result or error
+ */
+at.recognizeText(options, (result, error) => {
+    if (error) {
+        alert(error)
+    } else {
+        console.log(\`Got result of recognizeText:\n\$\{JSON.stringify(result, null, '    ')\}\`)
+        // Got result of recognizeText:
+        // [
+        //     {
+        //         "text": "Example",
+        //         "rectangle": {
+        //             "bottomRight": {
+        //                 "x": 300.47,
+        //                 "y": 177.78
+        //             },
+        //             "topRight": {
+        //                 "x": 300.47,
+        //                 "y": 237.52
+        //             },
+        //             "topLeft": {
+        //                 "x": 33.51,
+        //                 "y": 237.42
+        //             },
+        //             "bottomLeft": {
+        //                 "x": 33.51,
+        //                 "y": 177.68
+        //             }
+        //         }
+        //     }
+        // ]
+    }
+})
+\`\`\`
+`,
+    findtext: `
+\`Examples(JavaScript):\`
+\`\`\`js
+/**
+ * METHOD 1: keep doing findText continually for specified times or specified long time or till a specified time
+ * at.findText(params)
+ * @param {object} params - object of params
+ */
+at.findText({
+    options: {
+        debug: true
+    }, // OPTIONAL, options for text recoginition, same as function recognizeText().
+    matchMethod: text => text.toLowerCase() === 'examples', // REQUIRED, How to do matching to determine found.
+    duration: 10, // OPTIONAL, how long time you want it to keep finding? Three formats are supported: 1. \`duration: 10\` means repeat finding 10 times, the value must be a number, can't be a string; 2. \`duration: '60s'\` means keep finding for 60 seconds, the value must be seconds + a character 's'; 3. \`duration: '2020-05-30 12:00:00'\` means keep finding till 2020-05-30 12:00:00. Default is \`duration: 10\` means repeat 10 times, the value must be a string.
+    interval: 1000, // OPTIONAL, interval between loops in milliseconds, default is 1000 milliseconds.
+    exitIfFound: true, // OPTIONAL, if exit findText if got a result successfully, default is true.
+    eachFindingCallback: () => { // OPTIONAL, will call this function after each finding loop.
+        console.log(\`------Did a time of finding text at \$\{new Date().toLocaleString()\}-------\`)
+    },
+    foundCallback: result => { // OPTIONAL, will call this function while getting matched result, returns the rectangle coordinate matching the action you specified through \`matchMethod\`.
+        console.log(\`Got result of findText:\n\$\{JSON.stringify(result, null, '    ')\}\`)
+        alert(\`Got result of findText:\n\$\{JSON.stringify(result)\}\`)
+    },
+    errorCallback: error => { // OPTIONAL, handle any error, will exit findText if got error, if no errorCallback provide, it will alert while getting error.
+        alert(error)
+    },
+    completedCallback: () => { // OPTIONAL, callback when all finding completed
+        console.log('findText compeleted!')
+    },
+    block: false, // OPTIONAL, you want to run findColors asynchronously or synchronously, block=true means it will run synchronously and block here till completed, default is false, doesn't block here.
+})
+
+//------------------------------------------------
+
+/**
+ * METHOD 2: do findText a single time synchronously
+ * at.findText(options, matchMethod)
+ * @param {object} options - recognitionOptions, same with recognizeText
+ * @param {function} matchMethod - matchMethod, same with METHOD 1 of findText
+ * @returns {array} - array of [result, error]
+ */
+const [result, error] = at.findText({}, text => text.toLowerCase() === 'examples')
+if (error) {
+    alert('Failed to findText, error: %s', error)
+} else {
+    console.log('Got result by findText synchronously', result);
+}
+
+//------------------------------------------------
+
+/**
+ * METHOD 3: do findText a single time asynchronously
+ * at.findText(options, matchMethod, callback)
+ * @param {object} options - recognition options, same with recognizeText
+ * @param {function} matchMethod - same with METHOD 1 of findText
+ * @param {function} callback - callback function for handling the result or error
+ */
+at.findText({}, text => text.toLowerCase() === 'examples', (result, error) => {
+    if (error) {
+        alert('Failed to findText, error: %s', error)
+        return
+    }
+    console.log('Got result by findText asynchronously', result);
+})
+
+//------------------------------------------------
+
+// Format of findText result:
+// [
+//     {
+//         "bottomRight": {
+//             "x": 355.99,
+//             "y": 1442.97
+//         },
+//         "topRight": {
+//             "x": 355.99,
+//             "y": 1504.57
+//         },
+//         "topLeft": {
+//             "x": 35.7,
+//             "y": 1505.92
+//         },
+//         "bottomLeft": {
+//             "x": 35.7,
+//             "y": 1444.33
+//         }
+//     }
+// ]
+\`\`\`
+`,
     apprun: `
 \`appRun(appIdentifier)\`
 
 Run specified application.
 
-\`Example:\`
+\`Examples(JavaScript):\`
 \`\`\`js
 const { appRun, appKill, appState, appInfo } = at
 
@@ -668,7 +810,7 @@ alert('Informations of Outlook are: %j', result)
 
 Kill specified application.
 
-\`Example:\`
+\`Examples(JavaScript):\`
 \`\`\`js
 const { appRun, appKill, appState, appInfo } = at
 
